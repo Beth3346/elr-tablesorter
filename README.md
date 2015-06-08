@@ -1,16 +1,21 @@
-# DRM Tablesorter
+# ELR Tablesorter
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-A jQuery powered table sorter
-Requires jQuery
+A jQuery component
 
-## Features:
+### Dependencies:
 
-## Usage:
++ jQuery
 
-### Initialize:
+### Features:
 
-#### Options:
+### Config:
 
-#### Examples:
+### Example Usage:
+
+#### Sample html
+
+###License
+
+ELR-Tablesorter is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
