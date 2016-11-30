@@ -1,67 +1,73 @@
-(function($) {
-    window.elrTableSorter = function(params) {
-        var self = {};
-        var spec = params || {};
-        var $table = spec.table || $('.elr-sortable-table');
-        var buttonClass = spec.buttonClass || 'elr-sortable-table-button';
-        var activeClass = spec.activeClass || 'active';
+import elrUtlities from 'elr-utilities';
+const $ = require('jquery');
 
-        var toggleActiveClass = function(className, $parent) {
-            $(this).closest($parent).find('.' + className).removeClass(className);
-            $(this).addClass(className);
-        };
+let elr = elrUtlities();
 
-        var sortComplexList= function($listItems, dir, columnNum, types) {
-            var that = this;
-            var sortLists = {};
+const elrTableSorter = function({
+    $table = $('.elr-sortable-table'),
+    buttonClass = 'elr-sortable-table-button',
+    activeClass = 'active'
+} = {}) {
+    // const self = {};
 
-            elr.createArrays(sortLists, types);
+    const toggleActiveClass = function(className, $parent) {
+        $(this).closest($parent).find(`.${className}`).removeClass(className);
+        $(this).addClass(className);
+    };
 
-            $.each($listItems, function() {
-                var listItem = this;
-                var value = $.trim($(listItem).text());
+    const sortComplexList = function($listItems, dir, columnNum, types) {
+        const that = this;
+        const sortLists = {};
 
-                $.each(types, function() {
-                    if ( elr.dataTypeChecks['is' + elr.capitalize(this)].call(that, value) ) {
-                        sortLists[this].push(listItem);
-                    }
+        elr.createArrays(sortLists, types);
 
-                    return sortLists;
-                });
+        $.each($listItems, function() {
+            const listItem = this;
+            const value = $.trim($(listItem).find('td').eq(columnNum).text());
+
+            $.each(types, function() {
+                if ( elr[`is${elr.capitalize(this)}`](value) ) {
+                    sortLists[this].push(listItem);
+                }
+
+                return sortLists;
             });
-
-            $.each(sortLists, function(k) {
-                elr.comparators['sortColumn' + elr.capitalize(k)](sortLists[k], dir, columnNum);
-            });
-
-            return elr.concatArrays(sortLists);
-        };
-
-        var renderSort = function($sortedRows, $table) {
-            $table.empty();
-
-            $.each($sortedRows, function() {
-                $table.append(this);
-            });
-        };
-
-        $table.on('click', '.' + buttonClass, function(e) {
-            var $that = $(this);
-            var $tableBody = $table.find('tbody');
-            var $rows = $tableBody.find('tr');
-            var columnNum = $that.closest('th').index();
-            var type = $table.find('th').eq(columnNum).data('type');
-            var $list = elr.getColumnList(columnNum, $rows);
-            var values = elr.getListValues($list);
-            var types = elr.getDataTypes(values, type);
-            var $sortedRows = sortComplexList($rows, $that.data('dir'), columnNum, types);
-
-            toggleActiveClass.call(this, activeClass, 'tr');
-            renderSort($sortedRows, $tableBody);
-
-            e.preventDefault();
         });
 
-        return self;
+        $.each(sortLists, function(k) {
+            elr[`sortColumn${elr.capitalize(k)}`](sortLists[k], dir, columnNum);
+        });
+
+        return elr.concatArrays(sortLists);
     };
-})(jQuery);
+
+    const renderSort = function($sortedRows, $table) {
+        $table.empty();
+
+        $.each($sortedRows, function() {
+            $table.append(this);
+        });
+    };
+
+    $table.on('click', `.${buttonClass}`, function(e) {
+        e.preventDefault();
+
+        const $that = $(this);
+        const $parentTable = $that.closest('table');
+        const $tableBody = $parentTable.find('tbody');
+        const $rows = $tableBody.find('tr');
+        const columnNum = $that.closest('th').index();
+        const type = $parentTable.find('th').eq(columnNum).data('type');
+        const $list = elr.getColumnList(columnNum, $rows);
+        const values = elr.getListValues($list);
+        const types = elr.getDataTypes(values, type);
+        const $sortedRows = sortComplexList($rows, $that.data('dir'), columnNum, types);
+
+        toggleActiveClass.call(this, activeClass, 'tr');
+        renderSort($sortedRows, $tableBody);
+    });
+
+    // return self;
+};
+
+export default elrTableSorter;
