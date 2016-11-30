@@ -1,6 +1,6 @@
 {
   "name": "elr-tablesorter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "sort tabular data",
   "main": "dist/elr-tablesorter.js",
   "repository": {
