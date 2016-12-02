@@ -1,19 +1,16 @@
 {
   "name": "elr-tablesorter",
-  "version": "1.0.4",
   "description": "sort tabular data",
-  "main": "dist/elr-tablesorter.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/elr-utilities/elr-tablesorter.git"
-  },
-  "scripts": {
-    "build": "build"
+  "version": "1.0.4",
+  "author": "Elizabeth Rogers",
+  "bugs": {
+    "url": "https://github.com/Beth3346/elr-tablesorter",
+    "email": "beth@elizabeth-rogers.com"
   },
   "dependencies": {
     "babel-runtime": "^6.0.0",
-    "jquery": "^3.1.1",
-    "elr-utility-lib": ""
+    "elr-utility-lib": "",
+    "jquery": "^3.1.1"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
@@ -24,5 +21,18 @@
     "gulp-jshint": "^2.0.1",
     "gulp-sourcemaps": "^2.1.1",
     "jshint": "^2.9.3"
+  },
+  "homepage": "http://www.elizabeth-rogers.com/elr-utilities/js-tablesorter.html",
+  "keywords": [
+    "javascript, jquery, table, sort, ui"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "main": "dist/elr-tablesorter.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elr-utilities/elr-tablesorter.git"
+  },
+  "scripts": {
+    "build": "build"
   }
 }
