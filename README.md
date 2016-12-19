@@ -1,4 +1,9 @@
-# elr-tablesorter 
+# elr-tablesorter
+
+[![Build Status](https://travis-ci.org/Beth3346/elr-tablesorter.svg?branch=master)](https://travis-ci.org/Beth3346/elr-tablesorter)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![codecov](https://codecov.io/gh/Beth3346/elr-tablesorter/branch/master/graph/badge.svg)](https://codecov.io/gh/Beth3346/elr-tablesorter)
+[![npm](https://img.shields.io/npm/dm/elr-tablesorter.svg?style=flat)]()
 
 sort tabular data
 
