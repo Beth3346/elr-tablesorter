@@ -10,64 +10,62 @@ const elrTableSorter = function({
     buttonClass = 'elr-sortable-table-button',
     activeClass = 'active'
 } = {}) {
-    // const self = {};
-    const sortColumnDate = function($listItems, dir, columnNum) {
-        const sort = (a, b) => {
-            a = elr.trim($(a).find('td').eq(columnNum).text());
-            b = elr.trim($(b).find('td').eq(columnNum).text());
+    const self = {
+        sortColumnDate($listItems, dir, columnNum) {
+            const sort = (a, b) => {
+                a = elr.trim($(a).find('td').eq(columnNum).text());
+                b = elr.trim($(b).find('td').eq(columnNum).text());
 
-            if (elr.isDate(a) && elr.isDate(b)) {
-                a = new Date(elr.patterns.monthDayYear.exec(a));
-                b = new Date(elr.patterns.monthDayYear.exec(b));
+                if (elr.isDate(a) && elr.isDate(b)) {
+                    a = new Date(elr.patterns.monthDayYear.exec(a));
+                    b = new Date(elr.patterns.monthDayYear.exec(b));
+
+                    return elr.sortValues(a, b, dir);
+                }
+
+                return;
+            };
+
+            return $listItems.sort(sort);
+        },
+        sortColumnTime($listItems, dir, columnNum) {
+            const sort = (a, b) => {
+                a = elr.trim($(a).find('td').eq(columnNum).text());
+                b = elr.trim($(b).find('td').eq(columnNum).text());
+
+                if (elr.isTime(a) && elr.isTime(b)) {
+                    a = new Date(`04-22-2014 ${elr.parseTime(elr.patterns.monthDayYear.exec(a))}`);
+                    b = new Date(`04-22-2014 ${elr.parseTime(elr.patterns.monthDayYear.exec(b))}`);
+                } else {
+                    return;
+                }
 
                 return elr.sortValues(a, b, dir);
-            }
+            };
 
-            return;
-        };
+            return $listItems.sort(sort);
+        },
+        sortColumnAlpha($listItems, dir, columnNum) {
+            const ignoreWords = ['a', 'the'];
+            const sort = (a, b) => {
+                a = elr.cleanAlpha(elr.trim($(a).find('td').eq(columnNum).text()), ignoreWords).toLowerCase();
+                b = elr.cleanAlpha(elr.trim($(b).find('td').eq(columnNum).text()), ignoreWords).toLowerCase();
 
-        return $listItems.sort(sort);
-    };
+                return elr.sortValues(a, b, dir);
+            };
 
-    const sortColumnTime = function($listItems, dir, columnNum) {
-        const sort = (a, b) => {
-            a = elr.trim($(a).find('td').eq(columnNum).text());
-            b = elr.trim($(b).find('td').eq(columnNum).text());
+            return $listItems.sort(sort);
+        },
+        sortColumnNumber($listItems, dir, columnNum) {
+            const sort = (a, b) => {
+                a = parseFloat(elr.trim($(a).find('td').eq(columnNum).text()));
+                b = parseFloat(elr.trim($(b).find('td').eq(columnNum).text()));
 
-            if (elr.isTime(a) && elr.isTime(b)) {
-                a = new Date(`04-22-2014 ${elr.parseTime(elr.patterns.monthDayYear.exec(a))}`);
-                b = new Date(`04-22-2014 ${elr.parseTime(elr.patterns.monthDayYear.exec(b))}`);
-            } else {
-                return;
-            }
+                return elr.sortValues(a, b, dir);
+            };
 
-            return elr.sortValues(a, b, dir);
-        };
-
-        return $listItems.sort(sort);
-    };
-
-    const sortColumnAlpha = function($listItems, dir, columnNum) {
-        const ignoreWords = ['a', 'the'];
-        const sort = (a, b) => {
-            a = elr.cleanAlpha(elr.trim($(a).find('td').eq(columnNum).text()), ignoreWords).toLowerCase();
-            b = elr.cleanAlpha(elr.trim($(b).find('td').eq(columnNum).text()), ignoreWords).toLowerCase();
-
-            return elr.sortValues(a, b, dir);
-        };
-
-        return $listItems.sort(sort);
-    };
-
-    const sortColumnNumber = function($listItems, dir, columnNum) {
-        const sort = (a, b) => {
-            a = parseFloat(elr.trim($(a).find('td').eq(columnNum).text()));
-            b = parseFloat(elr.trim($(b).find('td').eq(columnNum).text()));
-
-            return elr.sortValues(a, b, dir);
-        };
-
-        return $listItems.sort(sort);
+            return $listItems.sort(sort);
+        }
     };
 
     const toggleActiveClass = function(className, $parent) {
@@ -93,7 +91,7 @@ const elrTableSorter = function({
         });
 
         elr.each(sortLists, function(k) {
-            elr[`sortColumn${elr.capitalize(k)}`](sortLists[k], dir, columnNum);
+            self[`sortColumn${elr.capitalize(k)}`](sortLists[k], dir, columnNum);
         });
 
         return elr.concatArrays(sortLists);
@@ -137,7 +135,7 @@ const elrTableSorter = function({
         renderSort($sortedRows, $tableBody);
     });
 
-    // return self;
+    return self;
 };
 
 export default elrTableSorter;
