@@ -77,9 +77,7 @@ const elrTableSorter = function({
 
     const sortComplexList = function($listItems, dir, columnNum, types) {
         const that = this;
-        const sortLists = {};
-
-        elr.createArrays(sortLists, types);
+        const sortLists = elr.createArrays(types);
 
         elr.each($listItems, function() {
             const listItem = this;
